@@ -14,14 +14,13 @@
     props: {
       placeholder: {
         type: String,
-        default: "Scrivi qui...",
       },
       maxLength: {
         type: Number,
-        default: 500,
       },
       modelValue: {
         type: String, 
+        default: "",
         required: true,
       },
     },

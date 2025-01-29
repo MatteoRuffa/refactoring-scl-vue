@@ -5,26 +5,32 @@
         </div>
         <div v-else> -->
             <!-- Titolo -->
-            <div class="feedback-header" :class="selectedChoiceTitle">
-                <h1>Feedback - {{ selectedChoiceText }}</h1>
+            <div class="feedback-header" >
+                <h1>Feedback - </h1>
             </div>
 
             <!-- Campi di feedback -->
-            <div class="feedback-fields">
-                <!-- <FeedbackField v-for="q in selectedChoiceList" :key="q.id" :choiceText="q.text" :questionId="q.id"
-                    :choiceId="$route.params.choiceId" /> -->
-            </div>
+            <!-- <div class="feedback-fields">
+                <FeedbackField 
+                    :choiceId="$route.params.choiceId" 
+                />
+            </div> -->
 
             <!-- Textarea per commenti -->
             <div class="feedback-comments">
                 <h3>Hai un ulteriore suggerimento per noi?</h3>
-                <TextArea :max-length="500" placeholder="Scrivi qui..." />
+                <TextArea
+                    :placeholder="'Scrivi qui...'"
+                    :maxLength="500"
+                    v-model="FeedbackPageData.additionalComment"
+                />
             </div>
-            <!-- v-model="selectedChoiceAdditionalComment" -->
 
             <!-- Pulsanti di navigazione -->
             <div class="feedback-footer">
-                <NavigationsButtons @back="goBack" :choiceId="$route.params.choiceId"/>
+                <NavigationsButtons 
+                @back="goBack" 
+                :choiceId="$route.params.choiceId"/>
             </div>
             <!-- @submit="submitFeedback()"  -->
         </div>
@@ -32,6 +38,7 @@
 </template>
 
 <script>
+import axios from "axios";
 // import { startInactivityTimeout, resetInactivityTimeout } from "@/utils/GlobalTimeout";
 // import FeedbackField from "@/components/FeedbackField.vue";
 import TextArea from "@/components/TextArea.vue";
@@ -45,9 +52,28 @@ export default {
         NavigationsButtons },
     data() {
         return {
+            FeedbackPageData: {},
         };
     },
     methods: {
+        async loadData() {
+            this.loading = true;
+            this.error = null;
+
+            try {
+                const choiceId = this.$route.params.choiceId;
+                const response = await axios.get(`http://localhost:3000/api/v1/scl/getChoices/${choiceId}`);
+                this.FeedbackPageData = response.data;
+
+                console.log("FeedbackPageData", this.FeedbackPageData);
+
+            } catch (error) {
+                this.error = "Errore nel caricamento dei dati";
+                console.error("Errore nella richiesta API:", error); 
+            } finally {
+                this.loading = false;
+            }
+        },
         goBack() {
             this.$router.push("/");
         },
@@ -64,9 +90,10 @@ export default {
 
     },
     mounted() {
-        // console.log("Choice ID ricevuto:", this.$route.params.choiceId);
         // startInactivityTimeout(this.$router, 60000);
 
+        //carico tutti i dati in FeedbackPageData
+        this.loadData();
     },
     watch: {
         // //controllo se l'utente ha interagito con la pagina

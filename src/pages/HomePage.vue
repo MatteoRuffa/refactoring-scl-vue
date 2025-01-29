@@ -6,7 +6,7 @@
         <div v-else>
             <!-- Immagine della homepage -->
             <div class="homepage-image">
-                <img :src="feedbackData.home.image" alt="Immagine della homepage" />
+                <img :src="homeData.home.image" alt="Immagine della homepage" />
             </div>
 
             <!-- Titolo -->
@@ -16,7 +16,7 @@
 
             <!-- Faccine -->
             <div class="emoji-container">
-                <EmojiSelector :choice="feedbackData.choices" @select="selectChoice($event, this.$router)" />
+                <EmojiSelector :choice="homeData.choices" @select="selectChoice($event, this.$router)" />
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@ export default {
     components: { EmojiSelector },
     data() {
         return {
-            feedbackData: {},
+            homeData: {},
             loading: true,
             error: null
         };
@@ -43,7 +43,7 @@ export default {
 
             try {
                 const response = await axios.get("http://localhost:3000/api/v1/scl/getHome");
-                this.feedbackData = response.data;
+                this.homeData = response.data;
             } catch (error) {
                 this.error = "Errore nel caricamento dei dati";
                 console.error("Errore nella richiesta API:", error); //poi da togliere!
@@ -54,20 +54,20 @@ export default {
         },
 
         async selectChoice(choiceId, router) {
-            let indexChoice = this.feedbackData.choices.findIndex((e) => e.id === choiceId);
+            let indexChoice = this.homeData.choices.findIndex((e) => e.id === choiceId);
 
             console.log("choiceId", choiceId);
-            console.log("feedbackData.choices", this.feedbackData.choices);
+            console.log("feedbackData.choices", this.homeData.choices);
             console.log("indexChoice", indexChoice);
-            console.log("feedbackData.choices[indexChoice].list", this.feedbackData.choices[indexChoice].list);
+            console.log("feedbackData.choices[indexChoice].list", this.homeData.choices[indexChoice].list);
 
             if (indexChoice !== -1) {
-                this.feedbackData.choices[indexChoice].selected = 1;
+                this.homeData.choices[indexChoice].selected = 1;
             }
-            if (this.feedbackData.choices[indexChoice].list == false) {
+            if (this.homeData.choices[indexChoice].list == false) {
                 try {
                     const response = await axios.post("http://localhost:3000/api/v1/scl/addFeedbackData",
-                        this.feedbackData, 
+                        this.homeData, 
                         {
                             headers: {
                                 'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ export default {
         }
     },
     mounted() {
-        //carico tutti i dati in feeddbackData
+        //carico tutti i dati in homeData
         console.log(2)
         this.loadData();
     },
