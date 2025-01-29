@@ -3,7 +3,7 @@
       <div class="thank-you-content">
         <h1>Grazie per il tuo feedback!</h1>
         <p>Il tuo contributo è prezioso per noi e ci aiuta a migliorare ogni giorno.</p>
-        <!-- <button @click="goHome" class="thank-you-button">Torna alla Home</button> -->
+        <button @click="goHome" class="thank-you-button">Torna alla Home</button>
       </div>
     </div>
   </template>
@@ -14,9 +14,9 @@
   export default {
     name: "ThankYouPage",
     methods: {
-    //   goHome() {
-    //     this.$router.push("/");
-    //   },
+      goHome() {
+        this.$router.push("/");
+      },
     },
     mounted() {
     //   startInactivityTimeout(this.$router, 20000);

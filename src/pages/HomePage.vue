@@ -16,7 +16,7 @@
 
             <!-- Faccine -->
             <div class="emoji-container">
-                <EmojiSelector :choice="feedbackData.choices" @select="selectChoice($event)" />
+                <EmojiSelector :choice="feedbackData.choices" @select="selectChoice($event, this.$router)" />
             </div>
         </div>
     </div>
@@ -24,7 +24,6 @@
 
 <script>
 import EmojiSelector from "@/components/EmojiSelector.vue";
-import { router } from "@/router";
 import axios from "axios";
 
 export default {
@@ -45,8 +44,6 @@ export default {
             try {
                 const response = await axios.get("http://localhost:3000/api/v1/scl/getHome");
                 this.feedbackData = response.data;
-
-
             } catch (error) {
                 this.error = "Errore nel caricamento dei dati";
                 console.error("Errore nella richiesta API:", error); //poi da togliere!
@@ -56,7 +53,7 @@ export default {
             }
         },
 
-        async selectChoice(choiceId) {
+        async selectChoice(choiceId, router) {
             let indexChoice = this.feedbackData.choices.findIndex((e) => e.id === choiceId);
 
             console.log("choiceId", choiceId);
@@ -82,6 +79,8 @@ export default {
                     console.error("Errore nell'invio del feedback:", error);
                 }
                 router.push("/thank-you");
+            }  else {
+                router.push(`/page-feedback/${choiceId}`);  
             }
         }
     },

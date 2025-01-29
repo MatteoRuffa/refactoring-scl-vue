@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import HomePage from '@/pages/HomePage.vue';
-// import FeedbackPage from "@/pages/FeedbackPage.vue";
+import FeedbackPage from "@/pages/FeedbackPage.vue";
 import ThankYouPage from "@/pages/ThankYouPage.vue";
 
 const router = createRouter({
@@ -13,11 +13,11 @@ const router = createRouter({
             name: "Home",
             component: HomePage,
         },
-        // {
-        //     path: "/page-feedback/:choiceId",
-        //     name: "Feedback",
-        //     component: FeedbackPage,
-        // },
+        {
+            path: "/page-feedback/:choiceId",
+            name: "Feedback",
+            component: FeedbackPage,
+        },
         {
             path: "/thank-you",
             name: "ThankYou",
