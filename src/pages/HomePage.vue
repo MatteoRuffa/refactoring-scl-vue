@@ -16,9 +16,7 @@
 
             <!-- Faccine -->
             <div class="emoji-container">
-                <EmojiSelector 
-                    :choice="feedbackData.choices"
-                 />
+                <EmojiSelector :choice="feedbackData.choices" @select="selectChoice($event)" />
             </div>
         </div>
     </div>
@@ -47,14 +45,41 @@ export default {
                 const response = await axios.get("http://localhost:3000/api/v1/scl/getHome");
                 this.feedbackData = response.data;
 
-                
-                
+
             } catch (error) {
                 this.error = "Errore nel caricamento dei dati";
                 console.error("Errore nella richiesta API:", error); //poi da togliere!
                 console.log(1)
             } finally {
                 this.loading = false;
+            }
+        },
+
+        async selectChoice(choiceId) {
+            let indexChoice = this.feedbackData.choices.findIndex((e) => e.id === choiceId);
+
+            console.log("choiceId", choiceId);
+            console.log("feedbackData.choices", this.feedbackData.choices);
+            console.log("indexChoice", indexChoice);
+            console.log("feedbackData.choices[indexChoice].list", this.feedbackData.choices[indexChoice].list);
+
+            if (indexChoice !== -1) {
+                this.feedbackData.choices[indexChoice].selected = 1;
+            }
+            if (this.feedbackData.choices[indexChoice].list == false) {
+                try {
+                    const response = await axios.post("http://localhost:3000/api/v1/scl/addFeedbackData",
+                        this.feedbackData, 
+                        {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    );
+                    console.log("Feedback inviato con successo!", response.data);
+                } catch (error) {
+                    console.error("Errore nell'invio del feedback:", error);
+                }
             }
         }
     },
