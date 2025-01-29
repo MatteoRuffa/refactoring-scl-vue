@@ -64,7 +64,7 @@ export default {
             if (indexChoice !== -1) {
                 this.homeData.choices[indexChoice].selected = 1;
             }
-            if (this.homeData.choices[indexChoice].list == false) {
+            if (this.homeData.choices[indexChoice].list.length === 0) {
                 try {
                     const response = await axios.post("http://localhost:3000/api/v1/scl/addFeedbackData",
                         this.homeData, 

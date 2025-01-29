@@ -13,7 +13,7 @@ export default {
     name: "EmojiSelector",
     props: {
         choice: {
-            type: Object,
+            type: Array,
             required: true,
         },
         size: {

@@ -10,11 +10,11 @@
             </div>
 
             <!-- Campi di feedback -->
-            <!-- <div class="feedback-fields">
-                <FeedbackField 
-                    :choiceId="$route.params.choiceId" 
+            <div class="feedback-fields">
+                <FeedbackField v-for="question in FeedbackPageData.list" :key="question.id"
+                    :list="FeedbackPageData.list" 
                 />
-            </div> -->
+            </div> 
 
             <!-- Textarea per commenti -->
             <div class="feedback-comments">
@@ -40,14 +40,14 @@
 <script>
 import axios from "axios";
 // import { startInactivityTimeout, resetInactivityTimeout } from "@/utils/GlobalTimeout";
-// import FeedbackField from "@/components/FeedbackField.vue";
+import FeedbackField from "@/components/FeedbackField.vue";
 import TextArea from "@/components/TextArea.vue";
 import NavigationsButtons from "@/components/NavigationsButtons.vue";
 
 export default {
     name: "FeedbackPage",
     components: { 
-        // FeedbackField,
+        FeedbackField,
         TextArea,
         NavigationsButtons },
     data() {
