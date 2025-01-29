@@ -24,6 +24,7 @@
 
 <script>
 import EmojiSelector from "@/components/EmojiSelector.vue";
+import { router } from "@/router";
 import axios from "axios";
 
 export default {
@@ -80,6 +81,7 @@ export default {
                 } catch (error) {
                     console.error("Errore nell'invio del feedback:", error);
                 }
+                router.push("/thank-you");
             }
         }
     },
@@ -90,3 +92,57 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.homepage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  padding: 0;
+  margin: 0;
+
+  .homepage-image {
+    flex: 0 0 60%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow:   0 4px 6px rgba(0, 0, 0, 0.1);
+
+    img {
+      max-height: 70vh;
+      max-width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .homepage-header {
+    flex: 0 0 auto;
+    text-align: center;
+    margin: 1rem 0;
+
+    h1 {
+      font-size: 2.0rem;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+
+}
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.5rem;
+    color: #888;
+  }
+  </style>
+  
